@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import BgGradient from "@/components/common/bg-gradient";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const fontSans = FontSans({
   variable: "--font-sans",
@@ -23,15 +24,17 @@ export default function RootLayout({
 }>) {
   return (
     //https://innate-noodle-e82.notion.site/AI-SaaS-app-Sommaire-Cheatsheet-188b184c73a880ada002db700139e4b1
-    <html lang="en">
-      <body className={`font-sans ${fontSans.variable} antialiased`}>
-        <div className="flex min-h-screen flex-col">
-          <BgGradient />
-          <Header />
-          <main className="flex-1"> {children} </main>
-          <Footer />
-        </div>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`font-sans ${fontSans.variable} antialiased`}>
+          <div className="flex min-h-screen flex-col">
+            <BgGradient />
+            <Header />
+            <main className="flex-1"> {children} </main>
+            <Footer />
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
