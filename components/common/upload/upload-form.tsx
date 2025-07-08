@@ -4,7 +4,10 @@ import { useUploadThing } from "@/utils/uploadthing";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { generatePdfSummary } from "@/actions/upload-actions";
+import {
+  generatePdfSummary,
+  storePdfSummaryAction,
+} from "@/actions/upload-actions";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 
@@ -69,8 +72,18 @@ export default function UploadForm() {
       return;
     }
 
-    if (data && data.summary) {
-      toast.success(data.summary + "\n\nSummary generated successfully!");
+    if (data && data.summary && typeof data.summary === "string") {
+      toast.success("Summary generated successfully!");
+      const storeResult: any = await storePdfSummaryAction({
+        summaryText: data.summary,
+        fileUrl: response[0].serverData.file.url,
+        title: data.title,
+        fileName: file.name,
+      });
+
+      toast.success(
+        `Summary stored successfully! Title: ${data.title || "N/A"}`
+      );
     }
     console.log("Summary generated:", summary);
   };
