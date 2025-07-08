@@ -1,5 +1,4 @@
 import OpenAI from "openai";
-import { th, tr } from "zod/v4/locales";
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });

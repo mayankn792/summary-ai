@@ -1,7 +1,9 @@
 "use server";
 
+import { generatePdfSummaryFromGemini } from "@/lib/gemini";
 import { fetchAndExtractPdfText } from "@/lib/langchain";
 import { generatePdfSummaryFromOpenAI } from "@/lib/openai";
+import { ca } from "zod/v4/locales";
 
 export async function generatePdfSummary(
   uploadResponse: [
@@ -47,10 +49,16 @@ export async function generatePdfSummary(
       summary = await generatePdfSummaryFromOpenAI(pdfText);
       console.log("Generated summary:", { summary });
     } catch (error) {
-      console.error("Error generating summary from OpenAI:", error);
+      if (error instanceof Error) {
+        try {
+          summary = await generatePdfSummaryFromGemini(pdfText);
+        } catch (gemError) {
+          throw new Error("Error generating summary with available models");
+        }
+      }
     }
 
-    if (!summary || !summary.data) {
+    if (!summary) {
       return {
         success: false,
         message: "Failed to generate summary from OpenAI",
