@@ -10,6 +10,7 @@ import {
 } from "@/actions/upload-actions";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   file: z
@@ -72,9 +73,10 @@ export default function UploadForm() {
       return;
     }
 
+    let storedResult: any;
     if (data && data.summary && typeof data.summary === "string") {
       toast.success("Summary generated successfully!");
-      const storeResult: any = await storePdfSummaryAction({
+      storedResult = await storePdfSummaryAction({
         summaryText: data.summary,
         fileUrl: response[0].serverData.file.url,
         title: data.title,
@@ -85,9 +87,12 @@ export default function UploadForm() {
         `Summary stored successfully! Title: ${data.title || "N/A"}`
       );
     }
+
     console.log("Summary generated:", summary);
+    router.push(`/summaries/${storedResult.data.id}`);
   };
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   return (
     <form
       className="relative flex flex-col items-center justify-center w-full max-w-2xl p-6 mx-auto border border-gray-300 rounded-lg shadow-md"
