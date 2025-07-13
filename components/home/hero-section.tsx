@@ -25,7 +25,7 @@ export default function HeroSection() {
         variant={"link"}
         className="text-white text-base px-8 sm:px-10 lg:px-12 py-6 sm:py-7 lg:py-8 lg:mt-16 rounded-full bg-linear-to-r from-slate-900 to-rose-500 hover:from-rose-500 hover:to-slate-900 hover:no-underline shadow-lg transition-all duration-300"
       >
-        <Link href="/#pricing" className="flex gap-2 items-center">
+        <Link href="/sign-in" className="flex gap-2 items-center">
           <span>Try it Now</span>
           <ArrowRight className="animate-pulse"></ArrowRight>
         </Link>

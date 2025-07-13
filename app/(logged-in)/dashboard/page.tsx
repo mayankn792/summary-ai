@@ -1,8 +1,19 @@
+import SummaryCard from "@/components/summary/summary-card";
 import { Button } from "@/components/ui/button";
+import { getSummaries } from "@/lib/summaries";
+import { currentUser } from "@clerk/nextjs/server";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const uploadLimit = 5;
+  const user = await currentUser();
+  const userId = user?.id;
+  if (!userId) {
+    return redirect("/sign-in");
+  }
+  const summaries = await getSummaries(userId);
   return (
     <main className="min-h-screen">
       <div className="container flex flex-col mx-auto gap-4">
@@ -28,8 +39,14 @@ export default function DashboardPage() {
             </Button>
           </div>
           <div className="mb-8 mt-8">
-            <div className="bg-rose-50 text-rose-800 border p-4 rounded-md">
+            {/* <div className="bg-rose-50 text-rose-800 border p-4 rounded-md">
               <p>You have reached the limit of 5 upload on the basic plan</p>
+            </div> */}
+            <br></br>
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {summaries.map((summary, index) => (
+                <SummaryCard key={index} summary={summary} />
+              ))}
             </div>
           </div>
         </div>

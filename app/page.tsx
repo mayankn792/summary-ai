@@ -9,10 +9,10 @@ export default function Home() {
     <div className="relative w-full">
       <div className="flex flex-col">
         <HeroSection />
-        <DemoSection />
+        {/* <DemoSection /> */}
         <HowItWorksSection />
-        <PricingSection />
-        <CallToActionSection />
+        {/* <PricingSection />
+        <CallToActionSection /> */}
       </div>
     </div>
   );

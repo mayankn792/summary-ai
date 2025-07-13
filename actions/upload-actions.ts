@@ -7,8 +7,6 @@ import { generatePdfSummaryFromOpenAI } from "@/lib/openai";
 import { formatFileNameAsTitle } from "@/utils/format-utils";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { title } from "process";
-import { ca } from "zod/v4/locales";
 
 interface PdfSummaryType {
   userId?: string;
@@ -102,13 +100,14 @@ async function savePdfSummary({
 }: PdfSummaryType) {
   try {
     const sql = await getDbConnection();
-    await sql`INSERT INTO pdf_summaries (user_id, original_file_url, summary_text, title, file_name) VALUES (${userId}, ${fileUrl}, ${summaryText}, ${title}, ${fileName})`;
+    const [result] =
+      await sql`INSERT INTO pdf_summaries (user_id, original_file_url, summary_text, title, file_name) VALUES (${userId}, ${fileUrl}, ${summaryText}, ${title}, ${fileName}) RETURNING id, summary_text`;
+
+    return result;
   } catch (error) {
     console.error("Error saving PDF summary:", error);
     throw new Error("Failed to save PDF summary");
   }
-
-  return "PDF summary saved successfully";
 }
 
 export async function storePdfSummaryAction({
@@ -152,7 +151,7 @@ export async function storePdfSummaryAction({
     };
   }
 
-  //   revalidatePath(`/summaries/${savedPdfSummary.id}`);
+  revalidatePath(`/summaries/${savedPdfSummary.id}`);
 
   return {
     success: true,
