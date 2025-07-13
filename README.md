@@ -24,12 +24,12 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. Sign in and
 
 #### homepage
 
-![summary ai home page](public/screenshots/summary-ai home.png)
+![summary ai home page](https://github.com/mayankn792/summary-ai/blob/main/public/screenshots/summary-ai%20home.png)
 
 #### upload page
 
-![summary ai upload a pdf page](public/screenshots/summary-ai upload.png)
+![summary ai upload a pdf page](https://github.com/mayankn792/summary-ai/blob/main/public/screenshots/summary-ai%20upload.png)
 
 #### dashboard
 
-![summary ai dashboard](public/screenshots/summary-ai dashboad1.png)
+![summary ai dashboard](https://github.com/mayankn792/summary-ai/blob/main/public/screenshots/summary-ai%20dashboad1.png)
